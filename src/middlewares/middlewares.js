@@ -1,18 +1,7 @@
 
-const errorMessages = {
-    missingTextError: "Nome ou Data de Nascimento pendente!",
-    lengthError: "Nome deve ter ao menos 3 letras",
-    numberFoundError: "Nome não pode conter números",
-    invalidBirthDateError: "Responsável deve ter nascido após 2014!",
-    argumentsError: "Data de nascimento com mais argumentos do que esperado!",
-    invalidDigitError: "Data de nascimento possui algum digito inválido!",
-    invalidDayError: "Dia inválido!",
-    invalidMonthError: "Mês inválido!",
-    invalidYearError: "Ano inválido!",
-    testError: "teste"
-}
+const errorMessages = require("../errorsController/errors")
 
-function verifyInput (req, res, next) {
+function verifyInputCreate (req, res, next) {
     const name = req.body.nome
     const birthDate = req.body.dataNascimento
 
@@ -32,6 +21,48 @@ function verifyInput (req, res, next) {
         return res.status(400).send({
             message: errorMessages[validBirthDate]
         })
+
+    req.body.dataNascimento = formatBirthDate(birthDate)
+    
+    return next()
+}
+
+function verifyInputUpdate (req, res, next) {
+    const id = req.params.id
+    const name = req.body.nome
+    const birthDate = req.body.dataNascimento
+
+    if(!id) 
+        return res.status(500).send({
+            message: errorMessages.missingIdError
+        })
+
+    const regex = /\d+/
+    if(!regex.test(id))
+        return res.status(500).send({
+            message: errorMessages.invalidIDError
+        })
+    
+    if(Object.keys(req.body).length > 2)
+        return res.status(500).send({
+            message: errorMessages.argumentsError
+        })
+   
+    if(name){
+        const validName = verifyName(name)
+        if(validName != true)
+            return res.status(500).send({
+                message: errorMessages[validName]
+            })
+    }
+
+    if(birthDate){
+        const validBirthDate = verifyBirthDate(birthDate)
+        if(validBirthDate != true)
+            return res.status(500).send({
+                message: errorMessages[validBirthDate]
+            })
+    }
     
     return next()
 }
@@ -48,30 +79,30 @@ function verifyName(name) {
 }
 
 function verifyBirthDate(birthDate) {
-    const splitData = birthDate.split(/[\/-]/)
+    const splitDate = birthDate.split(/[\/-]/)
 
-    if(splitData.length > 3)
+    if(splitDate.length > 3)
         return "argumentsError"
 
     const regex = /[^0-9]/
-    if(regex.test(splitData[0]) || regex.test(splitData[1]) || regex.test(splitData[2]))
+    if(regex.test(splitDate[0]) || regex.test(splitDate[1]) || regex.test(splitDate[2]))
         return "invalidDigitError"
 
-    if(splitData[2] < 2014)
+    if(splitDate[2] < 2014)
         return "invalidYearError"
 
-    if(splitData[1] > 12 || splitData[1] < 1)
+    if(splitDate[1] > 12 || splitDate[1] < 1)
         return "invalidMonthError"
 
     // Caso seja Ano Bissexto e o mês seja 2
-    if(splitData[1] == 2){
-        if(!isBissexto(splitData[2]) && splitData[0] > 28)
+    if(splitDate[1] == 2){
+        if(!isBissexto(splitDate[2]) && splitDate[0] > 28)
             return "invalidDayError"
 
-        if(splitData[0] > 29)
+        if(splitDate[0] > 29)
             return "invalidDayError"
     }
-    else if(maxDayOfMonth[splitData[1]] < splitData[0] || splitData[0] < 1)
+    else if(maxDayOfMonth[splitDate[1]] < splitDate[0] || splitDate[0] < 1)
         return "invalidDayError"
 
     return true
@@ -95,4 +126,10 @@ function isBissexto(year) {
     return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
 }
 
-module.exports = {verifyInput}
+function formatBirthDate(birthDate){
+    const splitDate = birthDate.split(/[\/-]/)
+
+    return splitDate.reduceRight((accumulator, currentValue) => accumulator + '-' + currentValue)
+}
+
+module.exports = {verifyInputCreate, verifyInputUpdate}

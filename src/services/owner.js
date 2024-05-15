@@ -4,14 +4,29 @@ async function list() {
     return await Owner.findAll()
 }
 
-async function add(datas) {
-    const newOwner = await Owner.create(datas)
-
-    return newOwner
+async function add(data) {
+    return await Owner.create(data)
 }
 
-const update = (id) => {
-    return [`update works! id: ${id.id}`]
+async function update(data, id) {
+    try{
+        const ownerToUpdate = await Owner.FindByPk(id)
+
+        // if(!ownerToUpdate){
+            
+        // }
+
+        const newOwnerArtibutes = {};
+
+        if(data.nome) newOwnerArtibutes.nome = data.nome
+        if(data.dataNascimento) newOwnerArtibutes.dataNascimento = data.dataNascimento
+
+        await ownerToUpdate.update(newOwnerArtibutes)
+
+        return await Owner.FindByPk(id)
+    } catch (error) {
+        return error
+    }
 }
 
 async function remove(id) {
