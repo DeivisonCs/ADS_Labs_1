@@ -1,5 +1,6 @@
 
 const errorMessages = require("../errorsController/errors")
+const middlewares = require("./middlewares")
 
 function verifyInputCreate (req, res, next) {
     const name = req.body.nome
@@ -22,7 +23,7 @@ function verifyInputCreate (req, res, next) {
             message: errorMessages[validBirthDate]
         })
 
-    req.body.dataNascimento = formatBirthDate(birthDate)
+    req.body.dataNascimento = middlewares.formatDate(birthDate)
     
     return next()
 }
@@ -96,40 +97,16 @@ function verifyBirthDate(birthDate) {
 
     // Caso seja Ano Bissexto e o mês seja 2
     if(splitDate[1] == 2){
-        if(!isBissexto(splitDate[2]) && splitDate[0] > 28)
+        if(!middlewares.isBissexto(splitDate[2]) && splitDate[0] > 28)
             return "invalidDayError"
 
         if(splitDate[0] > 29)
             return "invalidDayError"
     }
-    else if(maxDayOfMonth[splitDate[1]] < splitDate[0] || splitDate[0] < 1)
+    else if(middlewares.maxDayOfMonth[splitDate[1]] < splitDate[0] || splitDate[0] < 1)
         return "invalidDayError"
 
     return true
-}
-
-const maxDayOfMonth = { 
-    1: 31,
-    3: 31,
-    4: 30,
-    5: 31,
-    6: 30,
-    7: 31,
-    8: 31,
-    9: 30,
-    10: 31,
-    11: 30,
-    12: 31
-}
-
-function isBissexto(year) {
-    return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
-}
-
-function formatBirthDate(birthDate){
-    const splitDate = birthDate.split(/[\/-]/)
-
-    return splitDate.reduceRight((accumulator, currentValue) => accumulator + '-' + currentValue)
 }
 
 module.exports = {verifyInputCreate, verifyInputUpdate}
