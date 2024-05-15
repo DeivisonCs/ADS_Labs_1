@@ -24,6 +24,8 @@ const Task = db.define("tarefa", {
     timestamp: true
 })
 
+// Task.belongsTo(Owner)
+
 Task.associate = () => {
     Task.belongsTo(Owner, {
         as: "autor"

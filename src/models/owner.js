@@ -1,6 +1,5 @@
 const db = require("../database/database")
 const Sequelize = require("sequelize")
-const Task = require("./task")
 
 const Owner = db.define("responsavel", {
     id: {

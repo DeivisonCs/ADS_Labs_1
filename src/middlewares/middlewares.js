@@ -14,7 +14,7 @@ const errorMessages = {
 
 function verifyInput (req, res, next) {
     const name = req.body.nome
-    const birthDate = req.body.birthDate
+    const birthDate = req.body.dataNascimento
 
     if(!name || !birthDate)
         return res.status(400).send({
