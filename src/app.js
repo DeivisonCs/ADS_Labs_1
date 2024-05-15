@@ -5,6 +5,7 @@ const express = require("express")
 // Importa o controlador de rotas
 // const tarefaRouter = require("./routes/tarefa")
 const ownerRouter = require("./routes/owner")
+const taskRouter = require("./routes/task")
 
 const app = express()
 
@@ -12,6 +13,7 @@ const app = express()
 app.use(express.json())
 
 app.use("/owner", ownerRouter)
+app.use("/task", taskRouter)
 
 
 // Abre a porta que será usada

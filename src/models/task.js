@@ -16,6 +16,10 @@ const Task = db.define("tarefa", {
         type: Sequelize.STRING,
         allowNull: true
     },
+    isComplete: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false
+    },
     dataLimite: {
         type: Sequelize.DATEONLY,
         allowNull: false

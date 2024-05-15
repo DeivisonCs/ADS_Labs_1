@@ -1,6 +1,27 @@
 const Owner = require("../models/owner")
 
-async function list() {
+async function list(params) {
+    if(params.id)
+        return await Owner.findAll({
+            where: {
+                id: params.id
+            }
+        })
+
+    if(params.nome)
+        return await Owner.findAll({
+            where: {
+                nome: params.nome
+            }
+        })
+
+    if(params.dataNascimento)
+        return await Owner.findAll({
+            where: {
+                dataNascimento: params.dataNascimento
+            }
+        })
+
     return await Owner.findAll()
 }
 
@@ -10,11 +31,10 @@ async function add(data) {
 
 async function update(data, id) {
     try{
-        const ownerToUpdate = await Owner.FindByPk(id)
+        const ownerToUpdate = await Owner.findByPk(id)
 
-        // if(!ownerToUpdate){
-            
-        // }
+        if(!ownerToUpdate)
+            return false
 
         const newOwnerArtibutes = {};
 
@@ -23,21 +43,18 @@ async function update(data, id) {
 
         await ownerToUpdate.update(newOwnerArtibutes)
 
-        return await Owner.FindByPk(id)
+        return await Owner.findByPk(id)
     } catch (error) {
         return error
     }
 }
 
 async function remove(id) {
-    // return [`remove works! id: ${id.id}`]
-    const removedOwner = await Owner.destroy({
+    return await Owner.destroy({
         where: {
             id: id
         }
     })
-
-    return removedOwner
 }
 
 module.exports = {list, add, update, remove}
