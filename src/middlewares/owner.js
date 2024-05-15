@@ -33,25 +33,25 @@ function verifyInputUpdate (req, res, next) {
     const birthDate = req.body.dataNascimento
 
     if(!id) 
-        return res.status(500).send({
+        return res.status(400).send({
             message: errorMessages.missingIdError
         })
 
     const regex = /\d+/
     if(!regex.test(id))
-        return res.status(500).send({
+        return res.status(400).send({
             message: errorMessages.invalidIDError
         })
     
     if(Object.keys(req.body).length > 2)
-        return res.status(500).send({
+        return res.status(400).send({
             message: errorMessages.argumentsError
         })
    
     if(name){
         const validName = verifyName(name)
         if(validName != true)
-            return res.status(500).send({
+            return res.status(400).send({
                 message: errorMessages[validName]
             })
     }
@@ -59,7 +59,7 @@ function verifyInputUpdate (req, res, next) {
     if(birthDate){
         const validBirthDate = verifyBirthDate(birthDate)
         if(validBirthDate != true)
-            return res.status(500).send({
+            return res.status(400).send({
                 message: errorMessages[validBirthDate]
             })
     }

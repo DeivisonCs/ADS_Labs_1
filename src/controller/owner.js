@@ -3,7 +3,7 @@ const services = require("../services/owner")
 function add (req, res) {
     services.add(req.body)
         .then((owner) => {
-            return res.status(200).send({
+            return res.status(201).send({
                 message: "Responsavel Adicionado!",
                 responsavel: owner})
             }, 
