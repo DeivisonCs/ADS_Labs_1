@@ -1,5 +1,9 @@
 const Owner = require("../models/owner")
 
+async function add(data) {
+    return await Owner.create(data)
+}
+
 async function list(params) {
 
     if(params.id)
@@ -32,10 +36,6 @@ async function list(params) {
         })
 
     return await Owner.findAll()
-}
-
-async function add(data) {
-    return await Owner.create(data)
 }
 
 async function update(data, id) {

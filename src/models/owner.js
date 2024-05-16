@@ -19,10 +19,4 @@ const Owner = db.define("responsavel", {
     timestamp: true
 })
 
-Owner.associate = () => {
-    Owner.hasMany(Task, {
-        as: "tarefas"
-    })
-}
-
 module.exports = Owner

@@ -1,7 +1,8 @@
 // Inporta a variável de ambiente que define a porta
 require("dotenv").config({path: ".env"})
-const express = require("express")
+require("./database/database")
 
+const express = require("express")
 // Importa o controlador de rotas
 // const tarefaRouter = require("./routes/tarefa")
 const ownerRouter = require("./routes/owner")

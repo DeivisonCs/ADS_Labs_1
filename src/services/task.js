@@ -1,6 +1,7 @@
 const Task = require("../models/task")
 
 async function add(data) {
+
     return await Task.create(data)
 }
 

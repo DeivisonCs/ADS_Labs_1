@@ -1,0 +1,14 @@
+Adicionar Responsavel
+{
+    "nome": "Marcos",
+    "dataNascimento": "25/2/2037"
+}
+
+Adicionar Tarefa
+{
+    "titulo": "teste Um",
+    "descricao": "primeiro teste de adição de tarefas.",
+    "isComplete": "false",
+    "dataLimite": "17/05/2024",
+    "responsavelId": "1"
+}

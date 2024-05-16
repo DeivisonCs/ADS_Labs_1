@@ -22,18 +22,17 @@ const Task = db.define("tarefa", {
     },
     dataLimite: {
         type: Sequelize.DATEONLY,
-        allowNull: false
+        allowNull: true
     }
 },{
     timestamp: true
 })
 
-// Task.belongsTo(Owner)
 
-Task.associate = () => {
-    Task.belongsTo(Owner, {
-        as: "autor"
-    })
-}
+    // Task.belongsTo(Owner, {
+    //     foreignKey: 'id_responsavel'
+    // });
+
+Task.belongsTo(Owner)
 
 module.exports = Task
