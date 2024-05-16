@@ -33,8 +33,13 @@ function update (req, res) {
 
 function list (req, res) {
     services.list(req.query)    
-        .then((owners) => res.status(200).send({responsavel: owners?owners:"Responsável não encontrado!"}),
+        .then((owners) => res.status(200).send({responsavel: owners}),
         (error) => res.status(400).send({message: error}))
 }
 
-module.exports = {list, add, remove, update}
+function notPending(req, res) {
+    services.notPending()
+        .then((tasks) => res.status(200).send({tasks: tasks}),
+        (error) => res.status(400).send({message: error}))
+}
+module.exports = {list, add, remove, update, notPending}

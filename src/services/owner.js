@@ -1,3 +1,5 @@
+const {Op} = require('sequelize')
+const Sequelize = require('sequelize')
 const Owner = require("../models/owner")
 
 async function add(data) {
@@ -66,4 +68,14 @@ async function remove(id) {
     })
 }
 
-module.exports = {list, add, update, remove}
+async function notPending() {
+    return await Owner.findAll({
+        where: {
+            id: {
+                [Op.notIn]: Sequelize.literal('SELECT responsavelId FROM tarefa WHERE isComplete = false')
+            }
+          }
+    })
+}
+
+module.exports = {list, add, update, remove, notPending}

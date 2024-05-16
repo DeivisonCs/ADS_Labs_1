@@ -16,14 +16,6 @@ router.delete("/remove/:id", controller.remove)
 // Listar todos os responsáveis
 router.get("/list", controller.list)
 
-
-// Listar todas as tarefas de um responsável
-router.get("/list/tasks/:id", )
-
-// Listar todas as tarefas pendente de um responsável
-router.get("/pending/:id", )
-
-// Listar responsáveis que não possuem tarefas pendentes
-router.get("/complete", )
+router.get("/list/notpending", controller.notPending)
 
 module.exports = router
