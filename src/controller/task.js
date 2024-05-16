@@ -10,12 +10,6 @@ function add(req, res) {
         (error) => res.status(400).send({message: error}))
 }
 
-function list(req, res) {
-    services.list()
-        .then((task) => res.status(200).send({tarefas: task}), 
-        (error) => res.status(400).send({message: error}))
-}
-
 function remove(req, res) {
     services.remove(req.params.id)
         .then((task) => 
@@ -26,7 +20,6 @@ function remove(req, res) {
 }
 
 function update(req, res) {
-    // return res.status(200).send({teste:req.params.id})
     services.update(req.body, req.params.id)
         .then((task) => 
             res.status(200).send({
@@ -35,4 +28,28 @@ function update(req, res) {
     (error) => res.status(400).send({message: error}))
 }
 
-module.exports = {add, list, remove, update}
+function list(req, res) {
+    services.list(req.query)
+        .then((task) => res.status(200).send({tarefas: task}), 
+        (error) => res.status(400).send({message: error}))
+}
+
+function listFrom(req, res) {
+    services.listFrom(req.params.id)
+        .then((tasks) => 
+            res.status(200).send({
+                tasks: tasks?tasks:"Nenhuma tarefa não encontrada!"
+            }),
+        (error) => res.status(400).send({message: error}))
+}
+
+function listPendingFrom(req, res) {
+    services.listPendingFrom(req.params.id)
+        .then((tasks) =>
+            res.status(200).send({
+                tasks: tasks?tasks:"Nenhuma tarefa não encontrada!"
+            }),
+        (error) => res.status(400).send({message: error}))
+}
+
+module.exports = {add, list, remove, update, listFrom, listPendingFrom}

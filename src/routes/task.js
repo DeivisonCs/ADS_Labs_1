@@ -7,13 +7,20 @@ const controller = require("../controller/task")
 // Adicionar tarefa
 router.post("/add", middlewares.verifyInputCreate, controller.add)
 
-// Listar tarefas
-router.get("/list", controller.list)
-
 // Remover tarefa
 router.delete("/remove/:id", controller.remove)
 
 // Atualizar tarefa
 router.put("/update/:id", middlewares.verifyInputUpdate, controller.update)
+
+// Listar tarefas
+router.get("/list", controller.list)
+
+// Listar tarefas de um responsável
+router.get("/from/:id", controller.listFrom)
+
+// Listar tarefas de um responsável
+router.get("/pending/:id", controller.listPendingFrom)
+
 
 module.exports = router

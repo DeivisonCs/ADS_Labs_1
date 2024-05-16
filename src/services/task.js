@@ -5,10 +5,6 @@ async function add(data) {
     return await Task.create(data)
 }
 
-async function list() {
-    return await Task.findAll()
-}
-
 async function remove(id){
     return await Task.destroy({
         where: {
@@ -47,4 +43,47 @@ async function update(data, id){
     }
 }
 
-module.exports = {add, list, remove, update}
+async function list(data) {
+
+    if(data.id)
+        return await Task.findAll({
+            where: {
+                id: data.id
+            }
+        })
+
+    if(data.titulo)
+        return await Task.find({
+            where: {
+                titulo: data.titulo
+            }
+        })
+
+    if(data.isComplete)
+        return await Task.find({
+            where: {
+                isComplete: data.isComplete
+            }
+        })
+
+    return await Task.findAll()
+}
+
+async function listFrom(ownerId) {
+    return await Task.findAll({
+        where: {
+            responsavelId: ownerId
+        }
+    })
+}
+
+async function listPendingFrom(ownerId) {
+    return await Task.findAll({
+        where: {
+            responsavelId: ownerId,
+            isComplete: "false"
+        }
+    })
+}
+
+module.exports = {add, list, remove, update, listFrom, listPendingFrom}
