@@ -9,4 +9,12 @@ async function list() {
     return await Task.findAll()
 }
 
-module.exports = {add, list}
+async function remove(id){
+    return await Task.destroy({
+        where: {
+            id: id
+        }
+    })
+}
+
+module.exports = {add, list, remove}

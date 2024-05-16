@@ -16,4 +16,12 @@ function list(req, res) {
         (error) => res.status(400).send({message: error}))
 }
 
-module.exports = {add, list}
+function remove(req, res) {
+    services.remove(req.params.id)
+        .then((task) => res.status(200).send({
+            message: task?"Tarefa removida com sucesso!":"Tarefa não encontrada!"
+        }),
+    (error) => res.status(400).send({error}))
+}
+
+module.exports = {add, list, remove}
