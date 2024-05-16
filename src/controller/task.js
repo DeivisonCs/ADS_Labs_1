@@ -29,18 +29,15 @@ function update(req, res) {
 }
 
 function list(req, res) {
-    services.list(req.query)
-        .then((task) => res.status(200).send({tarefas: task}), 
-        (error) => res.status(400).send({message: error}))
-}
-
-function listFrom(req, res) {
-    services.listFrom(req.params.id)
-        .then((tasks) => 
-            res.status(200).send({
-                tasks: tasks?tasks:"Nenhuma tarefa não encontrada!"
-            }),
-        (error) => res.status(400).send({message: error}))
+    if(req.query.from){
+        services.listFrom(req.query.from)
+            .then((tasks) => res.status(200).send({tasks: tasks}),
+            (error) => res.status(400).send({message: error}))
+    }else{
+        services.list(req.query)
+            .then((task) => res.status(200).send({tarefas: task}), 
+            (error) => res.status(400).send({message: error}))
+    }
 }
 
 function listPendingFrom(req, res) {
@@ -52,4 +49,4 @@ function listPendingFrom(req, res) {
         (error) => res.status(400).send({message: error}))
 }
 
-module.exports = {add, list, remove, update, listFrom, listPendingFrom}
+module.exports = {add, list, remove, update, listPendingFrom}
