@@ -35,6 +35,23 @@ function verifyInputCreate(req, res, next) {
     return next()
 }
 
+function verifyInputUpdate(req, res, next) {
+    const deadline = req.body.dataLimite
+    
+    if(deadline){
+        const validDeadline = verifyDate(deadline)
+
+        if(validDeadline != true)
+            return res.status(400).send({
+                message: errorMessages[verifyDate(validDeadline)]
+        })
+
+        req.body.dataLimite = middlewares.formatDate(deadline)
+    }
+
+    return next()
+}
+
 function verifyDate(deadline) {
     const splitDate = deadline.split(/[\/-]/)
 
@@ -62,4 +79,4 @@ function verifyDate(deadline) {
     return true
 }
 
-module.exports = {verifyInputCreate}
+module.exports = {verifyInputCreate, verifyInputUpdate}

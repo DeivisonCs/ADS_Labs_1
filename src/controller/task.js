@@ -18,10 +18,21 @@ function list(req, res) {
 
 function remove(req, res) {
     services.remove(req.params.id)
-        .then((task) => res.status(200).send({
-            message: task?"Tarefa removida com sucesso!":"Tarefa não encontrada!"
-        }),
-    (error) => res.status(400).send({error}))
+        .then((task) => 
+            res.status(200).send({
+                message: task?"Tarefa removida com sucesso!":"Tarefa não encontrada!"
+            }),
+    (error) => res.status(400).send({message: error}))
 }
 
-module.exports = {add, list, remove}
+function update(req, res) {
+    // return res.status(200).send({teste:req.params.id})
+    services.update(req.body, req.params.id)
+        .then((task) => 
+            res.status(200).send({
+                message: task?"Tarefa atualizada!":"Tarefa não encontrada!"
+            }),
+    (error) => res.status(400).send({message: error}))
+}
+
+module.exports = {add, list, remove, update}

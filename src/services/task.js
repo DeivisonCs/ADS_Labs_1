@@ -17,4 +17,31 @@ async function remove(id){
     })
 }
 
-module.exports = {add, list, remove}
+async function update(data, id){
+    try{
+        const taskToUpdate = await Task.findByPk(id)
+
+        if(!taskToUpdate)
+            return false
+
+        const newTask = {}
+
+        if(data.titulo)
+            newTask.titulo = data.titulo
+
+        if(data.descricao)
+            newTask.descricao = data.descricao
+        
+        if(data.isComplete)
+            newTask.isComplete = data.isComplete
+
+        await taskToUpdate.update(newTask)
+
+        return await Owner.findByPk(id)
+    }
+    catch(error){
+        return error
+    }
+}
+
+module.exports = {add, list, remove, update}

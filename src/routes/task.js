@@ -10,7 +10,10 @@ router.post("/add", middlewares.verifyInputCreate, controller.add)
 // Listar tarefas
 router.get("/list", controller.list)
 
-// Remover tarefas
+// Remover tarefa
 router.delete("/remove/:id", controller.remove)
+
+// Atualizar tarefa
+router.put("/update/:id", middlewares.verifyInputUpdate, controller.update)
 
 module.exports = router
