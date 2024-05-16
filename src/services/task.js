@@ -35,6 +35,9 @@ async function update(data, id){
         if(data.isComplete)
             newTask.isComplete = data.isComplete
 
+        if(data.dataLimite)
+            newTask.dataLimite = data.dataLimite
+
         await taskToUpdate.update(newTask)
 
         return await Owner.findByPk(id)
