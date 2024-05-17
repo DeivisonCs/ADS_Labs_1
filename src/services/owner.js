@@ -39,6 +39,30 @@ async function list(params) {
             }
         })
 
+    if(params.notpending){
+        const ownersID = await db.query(`SELECT id 
+            FROM responsavels 
+            WHERE id 
+            NOT IN 
+            (SELECT tarefas."responsavelId" 
+            FROM tarefas 
+            WHERE tarefas."isComplete" = false)`).then((owners) => owners[0])
+
+            
+        const listId = ownersID.map(id => id.id)
+
+        // return ownersID
+
+
+        const ownersNotPending = await Owner.findAll({
+            where: {
+                id: listId
+            }
+        })
+        return ownersNotPending
+
+    }
+
     return await Owner.findAll()
 }
 
