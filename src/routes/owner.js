@@ -16,6 +16,4 @@ router.delete("/remove/:id", controller.remove)
 // Listar todos os responsáveis
 router.get("/list", controller.list)
 
-router.get("/list/notpending", controller.notPending)
-
 module.exports = router

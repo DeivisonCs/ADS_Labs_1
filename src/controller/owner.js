@@ -37,9 +37,4 @@ function list (req, res) {
         (error) => res.status(400).send({message: error}))
 }
 
-function notPending(req, res) {
-    services.notPending()
-        .then((tasks) => res.status(200).send({tasks: tasks}),
-        (error) => res.status(400).send({message: error}))
-}
-module.exports = {list, add, remove, update, notPending}
+module.exports = {list, add, remove, update}

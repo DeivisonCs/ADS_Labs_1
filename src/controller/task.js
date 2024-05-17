@@ -49,13 +49,4 @@ function list(req, res) {
     }
 }
 
-function listPendingFrom(req, res) {
-    services.listPendingFrom(req.params.id)
-        .then((tasks) =>
-            res.status(200).send({
-                tasks: tasks?tasks:"Nenhuma tarefa não encontrada!"
-            }),
-        (error) => res.status(400).send({message: error}))
-}
-
-module.exports = {add, list, remove, update, listPendingFrom}
+module.exports = {add, list, remove, update}

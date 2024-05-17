@@ -16,8 +16,5 @@ router.put("/update/:id", middlewares.verifyInputUpdate, controller.update)
 // Listar tarefas
 router.get("/list", controller.list)
 
-// Listar tarefas pendentes de um responsável
-router.get("/pending/:id", controller.listPendingFrom)
-
 
 module.exports = router

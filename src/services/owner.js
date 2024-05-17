@@ -51,9 +51,6 @@ async function list(params) {
             
         const listId = ownersID.map(id => id.id)
 
-        // return ownersID
-
-
         const ownersNotPending = await Owner.findAll({
             where: {
                 id: listId
@@ -94,24 +91,5 @@ async function remove(id) {
     })
 }
 
-async function notPending() {
-    return await db.query(`SELECT id FROM responsavels WHERE id NOT IN (SELECT tarefas."responsavelId" FROM tarefas WHERE tarefas."isComplete" = false)`)
 
-    
-    // try{
-    //     const allOwners = await Owner.findAll()
-    //     const allTasksPending = await Task.findAll({where:{isComplete:false}})
-
-    //     const allOwnerId = new Set(allOwners.map(owner => owner.id))
-    //     const allTaskPendingId = new Set(allTasksPending.map(task => task.responsavelId))
-
-    //     const ownersNotPending = allOwnersId.filter(owner => !allTaskPendingId.responsavelId.has(owner))
-
-    //     return ownersNotPending
-    // }
-    // catch(error){
-    //     return error
-    // }
-}
-
-module.exports = {list, add, update, remove, notPending}
+module.exports = {list, add, update, remove}

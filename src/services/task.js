@@ -62,16 +62,31 @@ async function list(data) {
         })
 
     if(data.titulo)
-        return await Task.find({
+        return await Task.findAll({
             where: {
                 titulo: data.titulo
             }
         })
 
+    if(data.prazo)
+        return await Task.findAll({
+            where: {
+                dataLimite: data.prazo
+            }
+        })
+
     if(data.isComplete)
-        return await Task.find({
+        return await Task.findAll({
             where: {
                 isComplete: data.isComplete
+            }
+        })
+
+    if(data.ownerid)
+        return await Task.findAll({
+            where: {
+                responsavelId: data.ownerid,
+                isComplete: data.pending
             }
         })
 
@@ -86,17 +101,8 @@ async function listFrom(ownerId) {
     })
 }
 
-async function listPendingFrom(ownerId) {
-    return await Task.findAll({
-        where: {
-            responsavelId: ownerId,
-            isComplete: "false"
-        }
-    })
-}
-
 async function getTask(taskId){
     return await Task.findAll({where:{id:taskId}})
 }
 
-module.exports = {add, list, remove, update, listFrom, listPendingFrom, getTask}
+module.exports = {add, list, remove, update, listFrom, getTask}

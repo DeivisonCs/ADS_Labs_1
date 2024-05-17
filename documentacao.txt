@@ -1,14 +1,88 @@
-Adicionar Responsavel
-{
-    "nome": "Marcos",
-    "dataNascimento": "25/2/2037"
-}
 
-Adicionar Tarefa
+------------------------------ Adicionar Responsável ------------------------------
+
+/owner/add       // Adiciona novo responsável
 {
-    "titulo": "teste Um",
-    "descricao": "primeiro teste de adição de tarefas.",
-    "isComplete": "false",
-    "dataLimite": "17/05/2024",
-    "responsavelId": "1"
+    "nome": [nome],
+    "dataNascimento": [dd/mm/aaaa] 
 }
+Descrição: 
+    Os dados são enviados pelo body;
+    A ordem não importa;
+    O nome do atributo deve ser igual mostrado acima.
+
+
+-------------------------------- Listar Responsável -------------------------------
+
+/owner/list                       // Lista todos os responsáveis 
+/owner/list?id                    // Lista todos com mesmo id (apenas 1 será retornado)
+/owner/list?nome                  // Lista todos que correspondem ao nome
+/owner/list?dataNascimento        // Lista todos com mesma data de nascimento(aaaa-mm-dd)
+/owner/list?dataNascimento&nome   // Lista todos com mesmo nome e data de nascimento(aaaa-mm-dd)
+/owner/list?notpending            // Lista todos os responsáveis SEM tarefas pendentes
+
+
+------------------------------ Atualizar Responsável ------------------------------
+
+/owner/update/:id    // Atualiza responsável recebendo o id como identificação
+{
+    "nome": [nome],
+    "dataNascimento": [dd/mm/aaaa]
+}
+Descrição: 
+    Os dados são enviados pelo body;
+    NÃO é necessário passar todo os campos, apenas os que se deseja atualizar.
+
+
+------------------------------- Remover Responsável -------------------------------
+
+/owner/remove/:id   // Remove responsável recebendo o id como identificação
+
+
+
+-------------------------------- Adicionar Tarefa ---------------------------------
+
+/task/add    // Adiciona nova tarefa
+{
+    "titulo": [titulo],
+    "descricao": [descrição],
+    "isComplete": [status],       // true ou false
+    "dataLimite": [dd/mm/aaaa],
+    "responsavelId": [id do responsável]
+}
+Descrição:
+    Os dados são enviados pelo body;
+    Apenas "descricao" é opcional;
+    "isComplete" determina se a tarefa foi concluída (true) ou não (false);
+    "dataLimite" determina até quando será possível alterar o status da tarefa.
+
+
+---------------------------------- Listar Tarefas ---------------------------------
+
+/task/list                  // Lista todas as tarefas
+/task/list?from             // Lista todas as tarefas de um responsável, recebendo o id do responsável como parâmetro
+/task/list?id               // Lista todas as tarefas com o id passado
+/task/list?prazo            // Lista todas as tarefas com prazo na data especificada
+/task/list?titulo           // Lista todas as tarefas com o titulo passado
+/task/list?isComplete       // Lista todas as tarefas completas(true) ou pendentes(false)
+/task/list?pending&ownerid  // Lista as tarefas completas(true) ou pendentes(false) de um responsável
+
+
+--------------------------------- Atualizar Tarefa -------------------------------
+
+/task/update/:id   // Atualiza tarefa recebendo o id como identificação
+{
+    "titulo": [titulo],
+    "dataLimite": [dd/mm/aaaa]
+}
+Descrição:
+    Os dados são enviados pelo body;
+    NÃO é possível atualizar tarefas com prazo finalizado;
+    A data do prazo é comparada com a data da máquina;
+    NÃO é necessário passar todo os campos, apenas os que se deseja atualizar;
+    Se dedseja finalizar uma tarefa passe "isComplete" como true
+
+
+-------------------------------- Remover Tarefa ---------------------------------
+
+/task/remove/:id   // Remove tarefa recebendo o id como identificação
