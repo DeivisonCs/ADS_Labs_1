@@ -23,6 +23,13 @@ async function update(data, id){
 
         const newTask = {}
 
+        if(taskToUpdate.isComplete)
+            return ["endedTask"]
+
+        // Verifica se a data da máquina é maior que a data limite da tarefa
+        if(middlewares.isTaskCompleted(middlewares.formatDate(taskToUpdate.dataLimite)))
+            return ["endedTask"]
+
         if(data.dataLimite){
             newTask.dataLimite = data.dataLimite
         }
@@ -33,9 +40,12 @@ async function update(data, id){
         if(data.descricao)
             newTask.descricao = data.descricao
 
+        if(data.isComplete)
+            newTask.isComplete = data.isComplete
+
         await taskToUpdate.update(newTask)
 
-        return await Owner.findByPk(id)
+        return await Task.findByPk(id)
     }
     catch(error){
         return error
@@ -85,4 +95,8 @@ async function listPendingFrom(ownerId) {
     })
 }
 
-module.exports = {add, list, remove, update, listFrom, listPendingFrom}
+async function getTask(taskId){
+    return await Task.findAll({where:{id:taskId}})
+}
+
+module.exports = {add, list, remove, update, listFrom, listPendingFrom, getTask}

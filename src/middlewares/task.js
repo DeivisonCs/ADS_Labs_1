@@ -40,6 +40,13 @@ function verifyInputCreate(req, res, next) {
 
 function verifyInputUpdate(req, res, next) {
     const deadline = req.body.dataLimite
+
+    // return res.send({
+    //     data1: deadline,
+    //     result1: middlewares.isTaskCompleted(deadline),
+    //     data2: "2002/08/12",
+    //     result2: middlewares.isTaskCompleted("12/08/2002")
+    // })
     
     // Verifica se foi passado uma dataLimite
     if(deadline){
@@ -49,7 +56,7 @@ function verifyInputUpdate(req, res, next) {
         if(validDeadline != true)
             return res.status(400).send({
                 message: errorMessages[verifyDate(validDeadline)]
-        })
+            })
 
         /* Verifica se o prazo da tarefa já passou, 
         caso tenha passado o parâmetro da data é removido do update,

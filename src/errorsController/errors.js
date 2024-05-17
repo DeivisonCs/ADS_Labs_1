@@ -11,6 +11,7 @@ const errorMessages = {
     invalidMonthError: "Mês inválido!",
     invalidYearError: "Ano inválido!",
     invalidIDError: "Id inválido!",
+    endedTask: "Tarefa não pode ser modificada fora do prazo ou após completa!",
     testError: "teste"
 }
 
