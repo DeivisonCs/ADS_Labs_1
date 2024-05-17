@@ -63,6 +63,8 @@ function verifyInputUpdate (req, res, next) {
             return res.status(400).send({
                 message: errorMessages[validBirthDate]
             })
+        
+        req.body.dataNascimento = middlewares.formatDate(birthDate)
     }
     
     return next()

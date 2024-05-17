@@ -76,7 +76,6 @@ async function update(data, id) {
         if(data.dataNascimento) newOwnerArtibutes.dataNascimento = data.dataNascimento
 
         await ownerToUpdate.update(newOwnerArtibutes)
-
         return await Owner.findByPk(id)
     } catch (error) {
         return error

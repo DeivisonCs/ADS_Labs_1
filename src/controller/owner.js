@@ -25,7 +25,7 @@ function update (req, res) {
     services.update(req.body, req.params.id)
         .then((owner) =>  
             res.status(200).send({
-                message: owner?"Responsavel atualizado com sucesso!":"Responsável não encontrado!"
+                responsavel: owner?owner:"Responsável não encontrado!"
             }),
         (error) => res.status(400).send({message: error}))
 }
