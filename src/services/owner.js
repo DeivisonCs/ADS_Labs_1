@@ -1,6 +1,7 @@
 const {Op} = require('sequelize')
 const Sequelize = require('sequelize')
 const Owner = require("../models/owner")
+const Task = require("../models/task")
 
 async function add(data) {
     return await Owner.create(data)
@@ -69,13 +70,20 @@ async function remove(id) {
 }
 
 async function notPending() {
-    return await Owner.findAll({
-        where: {
-            id: {
-                [Op.notIn]: Sequelize.literal('SELECT responsavelId FROM tarefa WHERE isComplete = false')
-            }
-          }
-    })
+    // return await Owner.findAll({
+    //     where: {
+    //         id: {
+    //             [Op.notIn]: [Sequelize.literal('SELECT tarefas.responsavelId FROM tarefas WHERE tarefas.isComplete = false')]
+    //         }
+    //     }
+    // })
+
+    const data = Sequelize.query('SELECT id FROM responsavels WHERE id NOT IN (SELECT responsavelId FROM tarefas WHERE isComplete = false)', {type:Sequelize.QueryTypes.SELECT}).then(async (data) => data[0])
+
+    console.log(data)
+    return await Owner.findAll()
+    
+    
 }
 
 module.exports = {list, add, update, remove, notPending}
