@@ -1,5 +1,6 @@
 const {Op} = require('sequelize')
 const Sequelize = require('sequelize')
+const db = require('../database/database')
 const Owner = require("../models/owner")
 const Task = require("../models/task")
 
@@ -70,20 +71,23 @@ async function remove(id) {
 }
 
 async function notPending() {
-    // return await Owner.findAll({
-    //     where: {
-    //         id: {
-    //             [Op.notIn]: [Sequelize.literal('SELECT tarefas.responsavelId FROM tarefas WHERE tarefas.isComplete = false')]
-    //         }
-    //     }
-    // })
+    return await db.query(`SELECT id FROM responsavels WHERE id NOT IN (SELECT tarefas."responsavelId" FROM tarefas WHERE tarefas."isComplete" = false)`)
 
-    const data = Sequelize.query('SELECT id FROM responsavels WHERE id NOT IN (SELECT responsavelId FROM tarefas WHERE isComplete = false)', {type:Sequelize.QueryTypes.SELECT}).then(async (data) => data[0])
+    
+    // try{
+    //     const allOwners = await Owner.findAll()
+    //     const allTasksPending = await Task.findAll({where:{isComplete:false}})
 
-    console.log(data)
-    return await Owner.findAll()
-    
-    
+    //     const allOwnerId = new Set(allOwners.map(owner => owner.id))
+    //     const allTaskPendingId = new Set(allTasksPending.map(task => task.responsavelId))
+
+    //     const ownersNotPending = allOwnersId.filter(owner => !allTaskPendingId.responsavelId.has(owner))
+
+    //     return ownersNotPending
+    // }
+    // catch(error){
+    //     return error
+    // }
 }
 
 module.exports = {list, add, update, remove, notPending}
