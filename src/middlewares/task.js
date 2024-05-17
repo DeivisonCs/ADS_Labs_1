@@ -7,29 +7,34 @@ function verifyInputCreate(req, res, next) {
     const deadline = req.body.dataLimite
 
 
+    // Verifica se o título foi enviado
     if(!title)
         return res.status(400).send({
             message: errorMessages.missingTextError
         })
         
-
+    
+    // Verifica se o estado foi enviado (false: não completa, true: completa)
     if(!isComplete)
         return res.status(400).send({
             message: errorMessages.missingTextError
         })
-        
 
+    // Verifica se o prazo foi enviado
     if(!deadline)
         return res.status(400).send({
             message: errorMessages.missingTextError
         })
 
     const validDeadline = verifyDate(deadline)
-    if(validDeadline != true)
+
+    // Verifica se o prazo é válido
+    if(validDeadline != true) 
         return res.status(400).send({
             message: errorMessages[validDeadline]
         })
 
+    // Formata o prazo para aaaa-mm-dd
     req.body.dataLimite = middlewares.formatDate(deadline)
 
     return next()
@@ -38,15 +43,21 @@ function verifyInputCreate(req, res, next) {
 function verifyInputUpdate(req, res, next) {
     const deadline = req.body.dataLimite
     
+    // Verifica se foi passado uma dataLimite
     if(deadline){
         const validDeadline = verifyDate(deadline)
 
+        // Verifica se a data é válida
         if(validDeadline != true)
             return res.status(400).send({
                 message: errorMessages[verifyDate(validDeadline)]
         })
 
-        req.body.dataLimite = middlewares.formatDate(deadline)
+        /* Verifica se o prazo da tarefa já passou, 
+        caso tenha passado o parâmetro da data é removido do update,
+        caso ainda esteja no prazo a formato da data é formatado para inserção no banco*/
+        if(middlewares.isTaskCompleted(deadline)) delete req.body.dataLimite
+        else req.body.dataLimite = middlewares.formatDate(deadline)
     }
 
     return next()

@@ -1,4 +1,5 @@
 const services = require("../services/task")
+const middlewares = require("../middlewares/middlewares")
 
 function add(req, res) {
     services.add(req.body)
@@ -25,7 +26,7 @@ function update(req, res) {
             res.status(200).send({
                 message: task?"Tarefa atualizada!":"Tarefa não encontrada!"
             }),
-    (error) => res.status(400).send({message: error}))
+        (error) => res.status(400).send({message: error}))
 }
 
 function list(req, res) {

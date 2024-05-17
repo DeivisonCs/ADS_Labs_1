@@ -1,4 +1,5 @@
 const Task = require("../models/task")
+const middlewares = require("../middlewares/middlewares")
 
 async function add(data) {
 
@@ -22,17 +23,15 @@ async function update(data, id){
 
         const newTask = {}
 
+        if(data.dataLimite){
+            newTask.dataLimite = data.dataLimite
+        }
+
         if(data.titulo)
             newTask.titulo = data.titulo
 
         if(data.descricao)
             newTask.descricao = data.descricao
-        
-        if(data.isComplete)
-            newTask.isComplete = data.isComplete
-
-        if(data.dataLimite)
-            newTask.dataLimite = data.dataLimite
 
         await taskToUpdate.update(newTask)
 
