@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  app:
+    image: taskpad:1.0
+    container_name: TaskPad 
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=MyDbPassword
+      - DB_DIALECT=postgres
+      - PORT=3000
+
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    container_name: taskpad_db
+    environment:
+      - POSTGRES_PASSWORD=MyDbPassword
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - db-datas-taskpad:/var/lib/postgresql/data
+
+volumes:
+  db-datas-taskpad:

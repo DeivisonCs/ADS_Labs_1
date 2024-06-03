@@ -1,14 +1,17 @@
 // Inporta a variável de ambiente que define a porta
 require("dotenv").config({path: ".env"})
 require("./database/database")
+// const cors = require('cors')
 
 const express = require("express")
+
 // Importa o controlador de rotas
-// const tarefaRouter = require("./routes/tarefa")
 const ownerRouter = require("./routes/owner")
 const taskRouter = require("./routes/task")
 
 const app = express()
+
+// app.use(cors({origin: '*'}))
 
 // Para a aplicação reconhecer json
 app.use(express.json())
