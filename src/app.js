@@ -1,7 +1,7 @@
 // Inporta a variável de ambiente que define a porta
 require("dotenv").config({path: ".env"})
 require("./database/database")
-// const cors = require('cors')
+const cors = require('cors')
 
 const express = require("express")
 
@@ -11,7 +11,7 @@ const taskRouter = require("./routes/task")
 
 const app = express()
 
-// app.use(cors({origin: '*'}))
+app.use(cors({origin: '*'}))
 
 // Para a aplicação reconhecer json
 app.use(express.json())

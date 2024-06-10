@@ -38,7 +38,7 @@ function list(req, res) {
     // Lista a partir de um responsável
     if(req.query.from){
         services.listFrom(req.query.from)
-            .then((tasks) => res.status(200).send({tasks: tasks}),
+            .then((tasks) => res.status(200).send({tarefas: tasks}),
             (error) => res.status(400).send({message: error}))
     }
     // Lista todas as tarefas ou a partir de alguns filtros com id, titulo ou isComplete

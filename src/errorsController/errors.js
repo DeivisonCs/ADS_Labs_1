@@ -1,6 +1,6 @@
 
 const errorMessages = {
-    missingTextError: "Nome ou Data de Nascimento pendente!",
+    missingTextError: "Informação pendente!",
     missingIdError: "Id não especificado!",
     lengthError: "Nome deve ter ao menos 3 letras",
     numberFoundError: "Nome não pode conter números",
