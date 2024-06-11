@@ -25,7 +25,7 @@ function update(req, res) {
         .then((task) => {
             // Caso o retorno da função tenha sido um erro personalizado
             if(task == "endedTask")
-                return res.status(200).send({message: errorMessages[task]})
+                return res.status(400).send({message: errorMessages[task]})
 
             return res.status(200).send({
                 message: task?"Tarefa atualizada!":"Tarefa não encontrada!"
