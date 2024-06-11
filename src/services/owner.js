@@ -83,6 +83,12 @@ async function update(data, id) {
 }
 
 async function remove(id) {
+    await Task.destroy({
+        where: {
+            responsavelId: id
+        }
+    })
+    
     return await Owner.destroy({
         where: {
             id: id
